@@ -57,21 +57,23 @@ class CalcCubit extends Cubit<CalcState> {
   }
 
   void result() {
-    final result = state.whenOrNull<double?>(
-      result: double.parse,
-      add: (a, b) => double.parse(a) + double.parse(b ?? '0'),
-      subtract: (a, b) => double.parse(a) - double.parse(b ?? '0'),
-      multiply: (a, b) => double.parse(a) * double.parse(b ?? '1'),
+    final result = state.whenOrNull<num?>(
+      result: num.parse,
+      add: (a, b) => num.parse(a) + num.parse(b ?? '0'),
+      subtract: (a, b) => num.parse(a) - num.parse(b ?? '0'),
+      multiply: (a, b) => num.parse(a) * num.parse(b ?? '1'),
       divide: (a, b) {
-        final n = double.parse(b ?? '1');
+        final n = num.parse(b ?? '1');
         if (n == 0) return null;
-        return double.parse(a) / n;
+        return num.parse(a) / n;
       },
     );
     if (result == null) {
       emit(const CalcState.error('Not a number'));
       return;
     }
-    emit(CalcState.result('$result'));
+    emit(CalcState.result(
+      result.toStringAsFixed(result.truncateToDouble() == result ? 0 : 1),
+    ));
   }
 }
