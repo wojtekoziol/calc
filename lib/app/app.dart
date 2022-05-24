@@ -1,3 +1,6 @@
+import 'package:calc/app/providers.dart';
+import 'package:calc/calc/calc_view.dart';
+import 'package:calc/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -5,6 +8,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp();
+    return Providers(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: kLightTheme,
+        darkTheme: kDarkTheme,
+        home: const CalcView(),
+      ),
+    );
   }
 }

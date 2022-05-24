@@ -7,7 +7,21 @@ part 'calc_cubit.freezed.dart';
 class CalcCubit extends Cubit<CalcState> {
   CalcCubit() : super(const CalcState.result());
 
-  final _chars = ['.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  final _chars = [
+    '-',
+    '.',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '0'
+  ];
 
   String _getTyped(String n, String char) {
     if (char == '.' && n.contains('.')) return n;
@@ -73,7 +87,30 @@ class CalcCubit extends Cubit<CalcState> {
       return;
     }
     emit(CalcState.result(
+      // TODO(wojtekoziol): Test for numbers with many digits after comma
       result.toStringAsFixed(result.truncateToDouble() == result ? 0 : 1),
     ));
+  }
+
+  // TODO(wojtekoziol): Test
+  void reset() {
+    emit(const CalcState.result());
+  }
+
+  // TODO(wojtekoziol): Test
+  void percent() {
+    divide();
+    type('1');
+    type('0');
+    type('0');
+    result();
+  }
+
+  // TODO(wojtekoziol): Test
+  void changeSign() {
+    multiply();
+    type('-');
+    type('1');
+    result();
   }
 }
