@@ -35,6 +35,7 @@ class CalcView extends StatelessWidget {
                         return Text(
                           result,
                           style: Theme.of(context).textTheme.headline3,
+                          overflow: TextOverflow.ellipsis,
                         );
                       },
                     )
