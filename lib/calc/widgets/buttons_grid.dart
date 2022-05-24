@@ -96,11 +96,8 @@ class ButtonsGrid extends StatelessWidget {
             color: kRed,
           ),
           CalcButton(
-            onTap: () {
-              // TODO(wojtekoziol): Implement revert
-              throw UnimplementedError();
-            },
-            text: '',
+            onTap: calc.revert,
+            text: '←',
           ),
           CalcButton(
             onTap: () => calc.type('0'),
