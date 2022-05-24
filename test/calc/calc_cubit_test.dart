@@ -27,11 +27,13 @@ void main() {
         act: (cubit) => cubit
           ..type('.')
           ..type('0')
+          ..type('0')
           ..type('2'),
         expect: () => const [
           CalcState.result('1.'),
           CalcState.result('1.0'),
-          CalcState.result('1.02'),
+          CalcState.result('1.00'),
+          CalcState.result('1.002'),
         ],
       );
 
@@ -75,6 +77,41 @@ void main() {
           ..type('p')
           ..type('"'),
         expect: List.empty,
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] when typed with multiple commas.',
+        build: CalcCubit.new,
+        act: (cubit) => cubit
+          ..type('0')
+          ..type('.')
+          ..type('2')
+          ..type('.')
+          ..type('3'),
+        expect: () => const [
+          CalcState.result('0'),
+          CalcState.result('0.'),
+          CalcState.result('0.2'),
+          CalcState.result('0.23'),
+        ],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] when typed with '
+        'multiple zeros in the beginning.',
+        build: CalcCubit.new,
+        act: (cubit) => cubit
+          ..type('0')
+          ..type('0')
+          ..type('.')
+          ..type('2')
+          ..type('3'),
+        expect: () => const [
+          CalcState.result('0'),
+          CalcState.result('0.'),
+          CalcState.result('0.2'),
+          CalcState.result('0.23'),
+        ],
       );
 
       blocTest<CalcCubit, CalcState>(
@@ -162,7 +199,8 @@ void main() {
       );
 
       blocTest<CalcCubit, CalcState>(
-        'emits [CalcState.subtract] when subtract is called and a is not specified',
+        'emits [CalcState.subtract] when subtract is called '
+        'and a is not specified',
         build: CalcCubit.new,
         act: (cubit) => cubit.subtract(),
         expect: () => const [
@@ -182,7 +220,8 @@ void main() {
       );
 
       blocTest<CalcCubit, CalcState>(
-        'emits [CalcState.multiply] when multiply is called and a is not specified',
+        'emits [CalcState.multiply] when multiply is called '
+        'and a is not specified',
         build: CalcCubit.new,
         act: (cubit) => cubit.multiply(),
         expect: () => const [
@@ -283,6 +322,125 @@ void main() {
         seed: () => const CalcState.divide(a: '3', b: '0'),
         act: (cubit) => cubit.result(),
         expect: () => const [CalcState.error('Not a number')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] when a and b '
+        'have multiple digits after comma',
+        build: CalcCubit.new,
+        seed: () => const CalcState.divide(a: '0.412312', b: '0.123412'),
+        act: (cubit) => cubit.result(),
+        expect: () => const [CalcState.result('3.340939292775419')],
+      );
+    });
+
+    group('reset', () {
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] with zero',
+        build: CalcCubit.new,
+        seed: () => const CalcState.divide(a: '3', b: '0'),
+        act: (cubit) => cubit.reset(),
+        expect: () => const [CalcState.result()],
+      );
+    });
+
+    group('percent', () {
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] with result divided by 100',
+        build: CalcCubit.new,
+        seed: () => const CalcState.result('8'),
+        act: (cubit) => cubit.percent(),
+        expect: () => const [CalcState.result('0.08')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.add] with b divided by 100',
+        build: CalcCubit.new,
+        seed: () => const CalcState.add(a: '3', b: '8'),
+        act: (cubit) => cubit.percent(),
+        expect: () => const [CalcState.add(a: '3', b: '0.08')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.subtract] with b divided by 100',
+        build: CalcCubit.new,
+        seed: () => const CalcState.subtract(a: '3', b: '8'),
+        act: (cubit) => cubit.percent(),
+        expect: () => const [CalcState.subtract(a: '3', b: '0.08')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.multiply] with b divided by 100',
+        build: CalcCubit.new,
+        seed: () => const CalcState.multiply(a: '3', b: '8'),
+        act: (cubit) => cubit.percent(),
+        expect: () => const [CalcState.multiply(a: '3', b: '0.08')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.divide] with b divided by 100',
+        build: CalcCubit.new,
+        seed: () => const CalcState.divide(a: '3', b: '8'),
+        act: (cubit) => cubit.percent(),
+        expect: () => const [CalcState.divide(a: '3', b: '0.08')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'does not emit anything when state is [CalcState.error]',
+        build: CalcCubit.new,
+        seed: () => const CalcState.error('Not a number'),
+        act: (cubit) => cubit.percent(),
+        expect: List.empty,
+      );
+    });
+
+    group('changeSign', () {
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.result] with result with changed sign',
+        build: CalcCubit.new,
+        seed: () => const CalcState.result('8.1354231'),
+        act: (cubit) => cubit.changeSign(),
+        expect: () => const [CalcState.result('-8.1354231')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.add] with b with changed sign',
+        build: CalcCubit.new,
+        seed: () => const CalcState.add(a: '3', b: '8'),
+        act: (cubit) => cubit.changeSign(),
+        expect: () => const [CalcState.add(a: '3', b: '-8')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.subtract] with b with changed sign',
+        build: CalcCubit.new,
+        seed: () => const CalcState.subtract(a: '3', b: '8'),
+        act: (cubit) => cubit.changeSign(),
+        expect: () => const [CalcState.subtract(a: '3', b: '-8')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.multiply] with b with changed sign',
+        build: CalcCubit.new,
+        seed: () => const CalcState.multiply(a: '3', b: '8'),
+        act: (cubit) => cubit.changeSign(),
+        expect: () => const [CalcState.multiply(a: '3', b: '-8')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.divide] with b with changed sign',
+        build: CalcCubit.new,
+        seed: () => const CalcState.divide(a: '3', b: '8'),
+        act: (cubit) => cubit.changeSign(),
+        expect: () => const [CalcState.divide(a: '3', b: '-8')],
+      );
+
+      blocTest<CalcCubit, CalcState>(
+        'does not emit anything when state is [CalcState.error]',
+        build: CalcCubit.new,
+        seed: () => const CalcState.error('Not a number'),
+        act: (cubit) => cubit.changeSign(),
+        expect: List.empty,
       );
     });
   });

@@ -7,6 +7,7 @@ part 'calc_cubit.freezed.dart';
 class CalcCubit extends Cubit<CalcState> {
   CalcCubit() : super(const CalcState.result());
 
+  final _removeZerosRegex = RegExp(r'([.]*0)(?!.*\d)');
   final _chars = [
     '-',
     '.',
@@ -25,7 +26,9 @@ class CalcCubit extends Cubit<CalcState> {
 
   String _getTyped(String n, String char) {
     if (char == '.' && n.contains('.')) return n;
+    if (char == '-' && n.contains('-')) return n;
     if (n == '0' && char != '.') return char;
+    if (n == '0' && char == '0') return n;
     return '$n$char';
   }
 
@@ -86,31 +89,60 @@ class CalcCubit extends Cubit<CalcState> {
       emit(const CalcState.error('Not a number'));
       return;
     }
+    if (result == 0) {
+      emit(const CalcState.result());
+      return;
+    }
     emit(CalcState.result(
-      // TODO(wojtekoziol): Test for numbers with many digits after comma
-      result.toStringAsFixed(result.truncateToDouble() == result ? 0 : 1),
+      result.toString().replaceAll(_removeZerosRegex, ''),
     ));
   }
 
-  // TODO(wojtekoziol): Test
   void reset() {
     emit(const CalcState.result());
   }
 
-  // TODO(wojtekoziol): Test
   void percent() {
-    divide();
-    type('1');
-    type('0');
-    type('0');
-    result();
+    final newState = state.map(
+      result: (value) => value.copyWith(
+        result: '${num.parse(value.result) / 100}',
+      ),
+      add: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') / 100}',
+      ),
+      subtract: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') / 100}',
+      ),
+      multiply: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') / 100}',
+      ),
+      divide: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') / 100}',
+      ),
+      error: (value) => value,
+    );
+    emit(newState);
   }
 
-  // TODO(wojtekoziol): Test
   void changeSign() {
-    multiply();
-    type('-');
-    type('1');
-    result();
+    final newState = state.map(
+      result: (value) => value.copyWith(
+        result: '${num.parse(value.result) * -1}',
+      ),
+      add: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') * -1}',
+      ),
+      subtract: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') * -1}',
+      ),
+      multiply: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') * -1}',
+      ),
+      divide: (value) => value.copyWith(
+        b: '${num.parse(value.b ?? '0') * -1}',
+      ),
+      error: (value) => value,
+    );
+    emit(newState);
   }
 }
