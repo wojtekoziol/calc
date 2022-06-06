@@ -96,7 +96,7 @@ class ButtonsGrid extends StatelessWidget {
             color: kRed,
           ),
           CalcButton(
-            onTap: calc.revert,
+            onTap: () {},
             text: '←',
           ),
           CalcButton(

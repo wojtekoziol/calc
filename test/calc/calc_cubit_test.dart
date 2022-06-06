@@ -167,6 +167,20 @@ void main() {
           CalcState.divide(a: '12', b: '34'),
         ],
       );
+
+      blocTest<CalcCubit, CalcState>(
+        'emits [CalcState.divide] with correct number when '
+        'state is CalcState.error.',
+        build: CalcCubit.new,
+        seed: () => const CalcState.error('Not a number'),
+        act: (cubit) => cubit
+          ..type('3')
+          ..type('4'),
+        expect: () => const [
+          CalcState.result('3'),
+          CalcState.result('34'),
+        ],
+      );
     });
 
     group('add', () {
