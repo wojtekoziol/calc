@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class CalcButton extends StatelessWidget {
   const CalcButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.text,
     this.color,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
   final String text;

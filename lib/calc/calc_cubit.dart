@@ -145,9 +145,4 @@ class CalcCubit extends Cubit<CalcState> {
     );
     emit(newState);
   }
-
-  void revert() {
-    // TODO(wojtekoziol): Implement and test revert
-    throw UnimplementedError();
-  }
 }

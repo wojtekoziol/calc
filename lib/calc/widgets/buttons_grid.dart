@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ButtonsGrid extends StatelessWidget {
-  const ButtonsGrid({Key? key}) : super(key: key);
+  const ButtonsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class ButtonsGrid extends StatelessWidget {
             color: kRed,
           ),
           CalcButton(
-            onTap: calc.revert,
+            onTap: () {},
             text: '←',
           ),
           CalcButton(
