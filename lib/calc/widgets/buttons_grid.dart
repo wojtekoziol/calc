@@ -39,10 +39,15 @@ class ButtonsGrid extends StatelessWidget {
             text: '%',
             color: kGreen,
           ),
-          CalcButton(
-            onTap: calc.divide,
-            text: '÷',
-            color: kRed,
+          BlocBuilder<CalcCubit, CalcState>(
+            builder: (context, state) {
+              return CalcButton(
+                onTap: calc.divide,
+                text: '÷',
+                color: kRed,
+                clicked: state.whenOrNull(divide: (a, b) => true) ?? false,
+              );
+            },
           ),
           CalcButton(
             onTap: () => calc.type('7'),
@@ -56,10 +61,15 @@ class ButtonsGrid extends StatelessWidget {
             onTap: () => calc.type('9'),
             text: '9',
           ),
-          CalcButton(
-            onTap: calc.multiply,
-            text: 'X',
-            color: kRed,
+          BlocBuilder<CalcCubit, CalcState>(
+            builder: (context, state) {
+              return CalcButton(
+                onTap: calc.multiply,
+                text: 'X',
+                color: kRed,
+                clicked: state.whenOrNull(multiply: (a, b) => true) ?? false,
+              );
+            },
           ),
           CalcButton(
             onTap: () => calc.type('4'),
@@ -73,10 +83,15 @@ class ButtonsGrid extends StatelessWidget {
             onTap: () => calc.type('6'),
             text: '6',
           ),
-          CalcButton(
-            onTap: calc.subtract,
-            text: '-',
-            color: kRed,
+          BlocBuilder<CalcCubit, CalcState>(
+            builder: (context, state) {
+              return CalcButton(
+                onTap: calc.subtract,
+                text: '-',
+                color: kRed,
+                clicked: state.whenOrNull(subtract: (a, b) => true) ?? false,
+              );
+            },
           ),
           CalcButton(
             onTap: () => calc.type('1'),
@@ -90,10 +105,15 @@ class ButtonsGrid extends StatelessWidget {
             onTap: () => calc.type('3'),
             text: '3',
           ),
-          CalcButton(
-            onTap: calc.add,
-            text: '+',
-            color: kRed,
+          BlocBuilder<CalcCubit, CalcState>(
+            builder: (context, state) {
+              return CalcButton(
+                onTap: calc.add,
+                text: '+',
+                color: kRed,
+                clicked: state.whenOrNull(add: (a, b) => true) ?? false,
+              );
+            },
           ),
           CalcButton(
             onTap: () {},
