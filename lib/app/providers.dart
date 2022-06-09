@@ -13,7 +13,7 @@ class Providers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CalcCubit(),
+      create: (_) => CalcCubit(),
       child: child,
     );
   }

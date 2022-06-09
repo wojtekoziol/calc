@@ -40,7 +40,7 @@ class ButtonsGrid extends StatelessWidget {
             color: kGreen,
           ),
           BlocBuilder<CalcCubit, CalcState>(
-            builder: (context, state) {
+            builder: (_, state) {
               return CalcButton(
                 onTap: calc.divide,
                 text: '÷',
@@ -62,7 +62,7 @@ class ButtonsGrid extends StatelessWidget {
             text: '9',
           ),
           BlocBuilder<CalcCubit, CalcState>(
-            builder: (context, state) {
+            builder: (_, state) {
               return CalcButton(
                 onTap: calc.multiply,
                 text: 'X',
@@ -84,7 +84,7 @@ class ButtonsGrid extends StatelessWidget {
             text: '6',
           ),
           BlocBuilder<CalcCubit, CalcState>(
-            builder: (context, state) {
+            builder: (_, state) {
               return CalcButton(
                 onTap: calc.subtract,
                 text: '-',
@@ -106,7 +106,7 @@ class ButtonsGrid extends StatelessWidget {
             text: '3',
           ),
           BlocBuilder<CalcCubit, CalcState>(
-            builder: (context, state) {
+            builder: (_, state) {
               return CalcButton(
                 onTap: calc.add,
                 text: '+',
