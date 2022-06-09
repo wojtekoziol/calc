@@ -19,6 +19,7 @@ class ButtonsGrid extends StatelessWidget {
         ),
       ),
       child: GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 4,
         mainAxisSpacing: kPaddingM,
         crossAxisSpacing: kPaddingM,
