@@ -117,7 +117,7 @@ class ButtonsGrid extends StatelessWidget {
           ),
           CalcButton(
             onTap: () {},
-            text: '←',
+            text: '',
           ),
           CalcButton(
             onTap: () => calc.type('0'),
