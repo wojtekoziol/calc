@@ -7,7 +7,10 @@
 
 import 'package:calc/app/app.dart';
 import 'package:calc/bootstrap.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() {
-  bootstrap(() => const App());
+  bootstrap(
+    () => DevicePreview(builder: (context) => const App()),
+  );
 }
