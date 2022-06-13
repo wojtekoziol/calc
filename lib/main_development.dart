@@ -7,10 +7,14 @@
 
 import 'package:calc/app/app.dart';
 import 'package:calc/bootstrap.dart';
+import 'package:calc/config/constants.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
-  bootstrap(
+Future<void> main() async {
+  await Hive.initFlutter();
+  await Hive.openBox<String>(calcCubitBox);
+  await bootstrap(
     () => DevicePreview(builder: (context) => const App()),
   );
 }

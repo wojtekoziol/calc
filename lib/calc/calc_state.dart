@@ -20,4 +20,7 @@ class CalcState with _$CalcState {
     String? b,
   }) = _Divide;
   const factory CalcState.error(String message) = _Error;
+
+  factory CalcState.fromJson(Map<String, dynamic> json) =>
+      _$CalcStateFromJson(json);
 }

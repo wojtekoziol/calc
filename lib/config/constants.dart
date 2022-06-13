@@ -17,3 +17,7 @@ const kPaddingXL = 64.0;
 // Animations
 const kAnimDuration = Duration(milliseconds: 200);
 const kAnimCurve = Curves.fastOutSlowIn;
+
+// Hive
+const kStateKey = 'state';
+const calcCubitBox = 'calc';
