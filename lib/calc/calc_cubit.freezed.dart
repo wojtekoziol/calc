@@ -14,6 +14,27 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+CalcState _$CalcStateFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'result':
+      return _Result.fromJson(json);
+    case 'add':
+      return _Add.fromJson(json);
+    case 'subtract':
+      return _Subtract.fromJson(json);
+    case 'multiply':
+      return _Multiply.fromJson(json);
+    case 'divide':
+      return _Divide.fromJson(json);
+    case 'error':
+      return _Error.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'CalcState',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$CalcState {
   @optionalTypeArgs
@@ -78,6 +99,7 @@ mixin _$CalcState {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -125,13 +147,20 @@ class __$$_ResultCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Result implements _Result {
-  const _$_Result([this.result = '0']);
+  const _$_Result([this.result = '0', final String? $type])
+      : $type = $type ?? 'result';
+
+  factory _$_Result.fromJson(Map<String, dynamic> json) =>
+      _$$_ResultFromJson(json);
 
   @override
   @JsonKey()
   final String result;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -146,6 +175,7 @@ class _$_Result implements _Result {
             const DeepCollectionEquality().equals(other.result, result));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(result));
@@ -240,10 +270,17 @@ class _$_Result implements _Result {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ResultToJson(this);
+  }
 }
 
 abstract class _Result implements CalcState {
   const factory _Result([final String result]) = _$_Result;
+
+  factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 
   String get result => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -286,14 +323,20 @@ class __$$_AddCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Add implements _Add {
-  const _$_Add({required this.a, this.b});
+  const _$_Add({required this.a, this.b, final String? $type})
+      : $type = $type ?? 'add';
+
+  factory _$_Add.fromJson(Map<String, dynamic> json) => _$$_AddFromJson(json);
 
   @override
   final String a;
   @override
   final String? b;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -309,6 +352,7 @@ class _$_Add implements _Add {
             const DeepCollectionEquality().equals(other.b, b));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -405,10 +449,17 @@ class _$_Add implements _Add {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AddToJson(this);
+  }
 }
 
 abstract class _Add implements CalcState {
   const factory _Add({required final String a, final String? b}) = _$_Add;
+
+  factory _Add.fromJson(Map<String, dynamic> json) = _$_Add.fromJson;
 
   String get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
@@ -453,14 +504,21 @@ class __$$_SubtractCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Subtract implements _Subtract {
-  const _$_Subtract({required this.a, this.b});
+  const _$_Subtract({required this.a, this.b, final String? $type})
+      : $type = $type ?? 'subtract';
+
+  factory _$_Subtract.fromJson(Map<String, dynamic> json) =>
+      _$$_SubtractFromJson(json);
 
   @override
   final String a;
   @override
   final String? b;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -476,6 +534,7 @@ class _$_Subtract implements _Subtract {
             const DeepCollectionEquality().equals(other.b, b));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -572,11 +631,18 @@ class _$_Subtract implements _Subtract {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SubtractToJson(this);
+  }
 }
 
 abstract class _Subtract implements CalcState {
   const factory _Subtract({required final String a, final String? b}) =
       _$_Subtract;
+
+  factory _Subtract.fromJson(Map<String, dynamic> json) = _$_Subtract.fromJson;
 
   String get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
@@ -622,14 +688,21 @@ class __$$_MultiplyCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Multiply implements _Multiply {
-  const _$_Multiply({required this.a, this.b});
+  const _$_Multiply({required this.a, this.b, final String? $type})
+      : $type = $type ?? 'multiply';
+
+  factory _$_Multiply.fromJson(Map<String, dynamic> json) =>
+      _$$_MultiplyFromJson(json);
 
   @override
   final String a;
   @override
   final String? b;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -645,6 +718,7 @@ class _$_Multiply implements _Multiply {
             const DeepCollectionEquality().equals(other.b, b));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -741,11 +815,18 @@ class _$_Multiply implements _Multiply {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MultiplyToJson(this);
+  }
 }
 
 abstract class _Multiply implements CalcState {
   const factory _Multiply({required final String a, final String? b}) =
       _$_Multiply;
+
+  factory _Multiply.fromJson(Map<String, dynamic> json) = _$_Multiply.fromJson;
 
   String get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
@@ -789,14 +870,21 @@ class __$$_DivideCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Divide implements _Divide {
-  const _$_Divide({required this.a, this.b});
+  const _$_Divide({required this.a, this.b, final String? $type})
+      : $type = $type ?? 'divide';
+
+  factory _$_Divide.fromJson(Map<String, dynamic> json) =>
+      _$$_DivideFromJson(json);
 
   @override
   final String a;
   @override
   final String? b;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -812,6 +900,7 @@ class _$_Divide implements _Divide {
             const DeepCollectionEquality().equals(other.b, b));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -908,10 +997,17 @@ class _$_Divide implements _Divide {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_DivideToJson(this);
+  }
 }
 
 abstract class _Divide implements CalcState {
   const factory _Divide({required final String a, final String? b}) = _$_Divide;
+
+  factory _Divide.fromJson(Map<String, dynamic> json) = _$_Divide.fromJson;
 
   String get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
@@ -950,12 +1046,19 @@ class __$$_ErrorCopyWithImpl<$Res> extends _$CalcStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Error implements _Error {
-  const _$_Error(this.message);
+  const _$_Error(this.message, {final String? $type})
+      : $type = $type ?? 'error';
+
+  factory _$_Error.fromJson(Map<String, dynamic> json) =>
+      _$$_ErrorFromJson(json);
 
   @override
   final String message;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -970,6 +1073,7 @@ class _$_Error implements _Error {
             const DeepCollectionEquality().equals(other.message, message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
@@ -1064,10 +1168,17 @@ class _$_Error implements _Error {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ErrorToJson(this);
+  }
 }
 
 abstract class _Error implements CalcState {
   const factory _Error(final String message) = _$_Error;
+
+  factory _Error.fromJson(Map<String, dynamic> json) = _$_Error.fromJson;
 
   String get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)

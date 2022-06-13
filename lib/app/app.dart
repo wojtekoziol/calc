@@ -1,6 +1,7 @@
 import 'package:calc/app/providers.dart';
 import 'package:calc/calc/calc_view.dart';
 import 'package:calc/config/theme.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -10,6 +11,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return Providers(
       child: MaterialApp(
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         theme: kLightTheme,
         darkTheme: kDarkTheme,

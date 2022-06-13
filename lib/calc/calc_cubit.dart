@@ -1,11 +1,20 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:calc/config/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'calc_state.dart';
 part 'calc_cubit.freezed.dart';
+part 'calc_cubit.g.dart';
 
 class CalcCubit extends Cubit<CalcState> {
-  CalcCubit() : super(const CalcState.result());
+  CalcCubit(this.box) : super(const CalcState.result()) {
+    _emitPrevState();
+  }
+
+  final Box<String> box;
 
   final _removeZerosRegex = RegExp(r'([.]*0)(?!.*\d)');
   final _chars = [
@@ -23,6 +32,19 @@ class CalcCubit extends Cubit<CalcState> {
     '9',
     '0'
   ];
+
+  void _emitPrevState() {
+    final jsonString = box.get(kStateKey);
+    if (jsonString == null) return;
+    emit(CalcState.fromJson(json.decode(jsonString) as Map<String, dynamic>));
+  }
+
+  @override
+  void onChange(Change<CalcState> change) {
+    super.onChange(change);
+    final jsonString = json.encode(change.nextState.toJson());
+    box.put(kStateKey, jsonString);
+  }
 
   String _getTyped(String n, String char) {
     if (char == '.' && n.contains('.')) return n;

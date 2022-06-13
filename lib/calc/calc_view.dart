@@ -23,7 +23,7 @@ class CalcView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     BlocBuilder<CalcCubit, CalcState>(
-                      builder: (context, state) {
+                      builder: (_, state) {
                         final result = state.when<String>(
                           result: (result) => result,
                           add: (a, b) => b ?? a,
