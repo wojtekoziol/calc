@@ -14,7 +14,8 @@ class CalcCubit extends Cubit<CalcState> {
     _emitPrevState();
   }
 
-  final Box<String> box;
+  final Box<List<String>> box;
+  bool _isPrev = false;
 
   final _removeZerosRegex = RegExp(r'([.]*0)(?!.*\d)');
   final _chars = [
@@ -34,16 +35,24 @@ class CalcCubit extends Cubit<CalcState> {
   ];
 
   void _emitPrevState() {
-    final jsonString = box.get(kStateKey);
-    if (jsonString == null) return;
-    emit(CalcState.fromJson(json.decode(jsonString) as Map<String, dynamic>));
+    final statesList = box.get(kStateKey);
+    if (statesList == null || statesList.isEmpty) return;
+    final prevState = CalcState.fromJson(
+      json.decode(statesList.last) as Map<String, dynamic>,
+    );
+    emit(prevState);
   }
 
   @override
   void onChange(Change<CalcState> change) {
     super.onChange(change);
-    final jsonString = json.encode(change.nextState.toJson());
-    box.put(kStateKey, jsonString);
+    final statesList = (box.get(kStateKey) ?? List.empty(growable: true))
+      ..add(json.encode(change.nextState.toJson()));
+    while (statesList.length > 26) {
+      statesList.removeAt(0);
+    }
+    box.put(kStateKey, statesList);
+    _isPrev = false;
   }
 
   String _getTyped(String n, String char) {
@@ -166,5 +175,19 @@ class CalcCubit extends Cubit<CalcState> {
       error: (value) => value,
     );
     emit(newState);
+  }
+
+  // TODO(wojtekoziol): test
+  void revert() {
+    final statesList = box.get(kStateKey);
+    if (statesList == null || statesList.isEmpty) return;
+    statesList.removeLast();
+    if (_isPrev) statesList.removeLast();
+    if (statesList.isEmpty) return;
+    final prevState = CalcState.fromJson(
+      json.decode(statesList.last) as Map<String, dynamic>,
+    );
+    emit(prevState);
+    _isPrev = true;
   }
 }

@@ -13,7 +13,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
-  await Hive.openBox<String>(calcCubitBox);
+  await Hive.openBox<List<String>>(calcCubitBox);
   await bootstrap(
     () => DevicePreview(builder: (context) => const App()),
   );
