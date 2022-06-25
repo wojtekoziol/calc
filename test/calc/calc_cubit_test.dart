@@ -13,7 +13,7 @@ import 'calc_cubit_test.mocks.dart';
 void main() {
   group('CalcCubit', () {
     group('without Hive', () {
-      final box = MockBox<String>();
+      final box = MockBox<List<String>>();
 
       setUp(() {
         when(box.get(any)).thenReturn(null);
@@ -479,11 +479,11 @@ void main() {
     });
 
     group('Hive', () {
-      final box = MockBox<String>();
+      final box = MockBox<List<String>>();
       const exampleState = CalcState.add(a: '12.5', b: '3');
 
       setUp(() {
-        when(box.get(any)).thenReturn(json.encode(exampleState.toJson()));
+        when(box.get(any)).thenReturn([json.encode(exampleState.toJson())]);
         when(box.put(any, any)).thenAnswer((realInvocation) async {});
       });
 
