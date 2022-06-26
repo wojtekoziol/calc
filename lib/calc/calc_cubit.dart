@@ -46,7 +46,8 @@ class CalcCubit extends Cubit<CalcState> {
   @override
   void onChange(Change<CalcState> change) {
     super.onChange(change);
-    final statesList = (box.get(kStateKey) ?? List.empty(growable: true))
+    final statesList = (box.get(kStateKey) ??
+        [json.encode(const CalcState.result().toJson())])
       ..add(json.encode(change.nextState.toJson()));
     while (statesList.length > 26) {
       statesList.removeAt(0);
