@@ -7,7 +7,11 @@
 
 import 'package:calc/app/app.dart';
 import 'package:calc/bootstrap.dart';
+import 'package:calc/config/constants.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
-  bootstrap(() => const App());
+Future<void> main() async {
+  await Hive.initFlutter();
+  await Hive.openBox<List<String>>(calcCubitBox);
+  await bootstrap(() => const App());
 }
