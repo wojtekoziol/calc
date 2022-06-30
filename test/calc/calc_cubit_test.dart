@@ -518,6 +518,21 @@ void main() {
             exampleResult1,
           ],
         );
+
+        blocTest<CalcCubit, CalcState>(
+          'removes old states',
+          setUp: () {
+            when(box.get(any)).thenReturn(
+              List.generate(
+                30,
+                (index) => json.encode(exampleAdd1),
+              )..add(json.encode(exampleAdd2)),
+            );
+          },
+          build: () => CalcCubit(box),
+          act: (cubit) => cubit.revert(),
+          expect: () => [exampleAdd1],
+        );
       });
     });
   });
