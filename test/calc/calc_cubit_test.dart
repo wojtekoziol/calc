@@ -480,15 +480,44 @@ void main() {
 
     group('Hive', () {
       final box = MockBox<List<String>>();
-      const exampleState = CalcState.add(a: '12.5', b: '3');
+
+      const exampleResult1 = CalcState.result('1');
+      const exampleResult2 = CalcState.result('1.');
+      const exampleResult3 = CalcState.result('1.5');
+      const exampleAdd1 = CalcState.add(a: '1.5');
+      const exampleAdd2 = CalcState.add(a: '1.5', b: '2');
 
       setUp(() {
-        when(box.get(any)).thenReturn([json.encode(exampleState.toJson())]);
+        when(box.get(any)).thenReturn([
+          json.encode(exampleResult1.toJson()),
+          json.encode(exampleResult2.toJson()),
+          json.encode(exampleResult3.toJson()),
+          json.encode(exampleAdd1.toJson()),
+          json.encode(exampleAdd2.toJson()),
+        ]);
         when(box.put(any, any)).thenAnswer((realInvocation) async {});
       });
 
       test('initial state is correct', () {
-        expect(CalcCubit(box).state, equals(exampleState));
+        expect(CalcCubit(box).state, equals(exampleAdd2));
+      });
+
+      group('revert', () {
+        blocTest<CalcCubit, CalcState>(
+          'reverts to previous states',
+          build: () => CalcCubit(box),
+          act: (cubit) => cubit
+            ..revert()
+            ..revert()
+            ..revert()
+            ..revert(),
+          expect: () => [
+            exampleAdd1,
+            exampleResult3,
+            exampleResult2,
+            exampleResult1,
+          ],
+        );
       });
     });
   });
