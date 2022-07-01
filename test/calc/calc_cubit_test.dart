@@ -203,9 +203,9 @@ void main() {
         blocTest<CalcCubit, CalcState>(
           'emits [CalcState.add] when add is called and a is specified',
           build: () => CalcCubit(box),
-          seed: () => const CalcState.result('12.5'),
+          seed: () => const CalcState.result('10'),
           act: (cubit) => cubit.add(),
-          expect: () => const [CalcState.add(a: '12.5')],
+          expect: () => const [CalcState.add(a: '10')],
         );
 
         blocTest<CalcCubit, CalcState>(
@@ -532,6 +532,16 @@ void main() {
           build: () => CalcCubit(box),
           act: (cubit) => cubit.revert(),
           expect: () => [exampleAdd1],
+        );
+
+        blocTest<CalcCubit, CalcState>(
+          'adds default state when list of previous is empty',
+          setUp: () => when(box.get(any)).thenReturn(
+            [json.encode(exampleAdd2)],
+          ),
+          build: () => CalcCubit(box),
+          act: (cubit) => cubit.revert(),
+          expect: () => const [CalcState.result()],
         );
       });
     });
