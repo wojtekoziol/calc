@@ -126,9 +126,10 @@ class CalcCubit extends Cubit<CalcState> {
       emit(const CalcState.result());
       return;
     }
-    emit(CalcState.result(
-      result.toString().replaceAll(_removeZerosRegex, ''),
-    ));
+    final formatted = result.toString().contains('.')
+        ? result.toString().replaceAll(_removeZerosRegex, '')
+        : result.toString();
+    emit(CalcState.result(formatted));
   }
 
   void reset() {
@@ -183,7 +184,9 @@ class CalcCubit extends Cubit<CalcState> {
     final statesList = box.get(kStateKey);
     if (statesList == null || statesList.isEmpty) return;
     statesList.removeLast();
-    if (statesList.isEmpty) return;
+    if (statesList.isEmpty) {
+      statesList.add(json.encode(const CalcState.result()));
+    }
     final prevState = CalcState.fromJson(
       json.decode(statesList.last) as Map<String, dynamic>,
     );
