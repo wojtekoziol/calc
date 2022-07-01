@@ -41,42 +41,44 @@ class CalcButton extends HookWidget {
       return null;
     }, [clicked]);
 
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(kPaddingS),
-          child: AnimatedBuilder(
-            animation: animController,
-            builder: (_, __) => Transform.scale(
-              scale: scaleAnim.value,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadiusAnim.value),
-                  color: color,
+    return Expanded(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(kPaddingM),
+            child: AnimatedBuilder(
+              animation: animController,
+              builder: (_, __) => Transform.scale(
+                scale: scaleAnim.value,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(borderRadiusAnim.value),
+                    color: color,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            color: Colors.transparent,
-            child: Align(
-              child: AnimatedBuilder(
-                animation: colorAnim,
-                builder: (_, __) => Text(
-                  text,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: colorAnim.value),
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              color: Colors.transparent,
+              child: Align(
+                child: AnimatedBuilder(
+                  animation: colorAnim,
+                  builder: (_, __) => Text(
+                    text,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(color: colorAnim.value),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
